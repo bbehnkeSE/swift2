@@ -63,16 +63,6 @@ def get_tasks():
     tasks = [dict(x) for x in task_table.find(order_by='time')]
     return { "tasks": tasks }
 
-@app.route('/update', methods = ['POST'])
-    def webhook():
-        if request.method == 'POST':
-            repo = git.Repo('https://github.com/bbehnkeSE/swift2')
-            origin = repo.remotes.origin
-            origin.pull()
-            return 'Updated successfully', 200
-        else:
-            return 'Wrong event type', 400
-
 @post('/api/tasks')
 def create_task():
     'create a new task in the database'
