@@ -6,6 +6,7 @@ import os
 
 # web transaction objects
 from bottle import request, response
+from flask  import Flask, request, Response
 
 # HTML request types
 from bottle import route, get, put, post, delete
@@ -17,6 +18,8 @@ VERSION=0.1
 
 # development server
 PYTHONANYWHERE = ("PYTHONANYWHERE_SITE" in os.environ)
+
+app = Flask(__name__)
 
 if PYTHONANYWHERE:
     from bottle import default_app
@@ -49,6 +52,16 @@ import dataset
 import time
 
 taskbook_db = dataset.connect('sqlite:///taskbook.db')
+
+@app.route('/update', methods=['POST'])
+def webhook():
+    if request.method == 'POST':
+        repo = git.Repo('https://github.com/bbehnkeSE/swift2.git')
+        origin = repo.remotes.origin
+        origin.pull()
+        return 'Updated successfully', 200
+    else:
+        return 'Wrong event type', 400
 
 @get('/api/version')
 def get_version():
