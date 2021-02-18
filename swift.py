@@ -6,7 +6,6 @@ import os
 
 # web transaction objects
 from bottle import request, response
-from flask  import Flask, request, Response
 
 # HTML request types
 from bottle import route, get, put, post, delete
@@ -18,8 +17,6 @@ VERSION=0.1
 
 # development server
 PYTHONANYWHERE = ("PYTHONANYWHERE_SITE" in os.environ)
-
-app = Flask(__name__)
 
 if PYTHONANYWHERE:
     from bottle import default_app
